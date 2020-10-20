@@ -8,6 +8,25 @@ const character = {
     resistance: ['steel'],
     defaultHP:100,
     damageHP:100,
+    changeHP:function changeHP(count){
+    
+    if(this.damageHP<count){
+        this.damageHP = 0;
+        alert('Бедный ' + this.name + ' проиграл бой');
+        $btn.disabled = true;
+    } else {
+        this.damageHP -= count;
+    }
+    
+    const log = this === enemy ? generateLog(this, character, count) : generateLog(this, enemy, count);
+    
+    const $p = document.createElement('p');
+    $p.innerText = log;
+    $logs.insertBefore($p, $logs.children[0]);
+    console.log(log);
+    renderHP.call(this);
+    },
+
     elHP: document.getElementById('health-character'),
     elProgressbar: document.getElementById('progressbar-character')
 };
@@ -18,6 +37,26 @@ const enemy = {
     resistance: ['fighting','water','some'],
     defaultHP:100,
     damageHP:100,
+    changeHP:function (count){
+    
+    if(this.damageHP<count){
+        this.damageHP = 0;
+        alert('Бедный ' + this.name + ' проиграл бой');
+        $btn.disabled = true;
+    } else {
+        this.damageHP -= count;
+    }
+    
+    const log = this === enemy ? generateLog(this, character, count) : generateLog(this, enemy, count);
+    
+    const $p = document.createElement('p');
+    $p.innerText = log;
+    $logs.insertBefore($p, $logs.children[0]);
+    console.log(log);
+    renderHP.call(this);
+    },
+
+  
     elHP: document.getElementById('health-enemy'),
     elProgressbar: document.getElementById('progressbar-enemy')
 };
@@ -39,22 +78,22 @@ function generateLog(firstPerson, secondPerson, dmg){
 }
 $btn.addEventListener('click', function() {
     console.log('Kick');
-    changeHP.call(character, random(20));
-    changeHP.call(enemy, random(20));
+    character.changeHP(random(20));
+    enemy.changeHP(random(20));
 });
 $btn1.addEventListener('click', function() {
     console.log('Ulta');
-    changeHP.call(character, random(500));
-    changeHP.call(enemy, random(500));
+    character.changeHP(random(500));
+    enemy.changeHP(random(500));
 });
 function init() {
     console.log('Start Game!');
-    renderHP.call(character);
-    renderHP.call(enemy);
+    renderHP.apply(character);
+    renderHP.apply(enemy);
 }
 function renderHP(){
-    renderHPLife.call(this);
-    renderProgressbarHP.call(this);
+    renderHPLife.apply(this);
+    renderProgressbarHP.apply(this);
     
 }
 function renderHPLife(){
@@ -62,24 +101,6 @@ function renderHPLife(){
 }
 function renderProgressbarHP(){
     this.elProgressbar.style.width = this.damageHP + '%';
-}
-function changeHP(count){
-    
-    if(this.damageHP<count){
-        this.damageHP = 0;
-        alert('Бедный ' + this.name + ' проиграл бой');
-        $btn.disabled = true;
-    } else {
-        this.damageHP -= count;
-    }
-    
-    const log = this === enemy ? generateLog(this, character, count) : generateLog(this, enemy, count);
-    
-    const $p = document.createElement('p');
-    $p.innerText = log;
-    $logs.insertBefore($p, $logs.children[0]);
-    console.log(log);
-    renderHP.call(this);
 }
 function random(num){
     return Math.ceil(Math.random()*num);
