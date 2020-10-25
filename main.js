@@ -1,14 +1,18 @@
 const $btn = document.getElementById('btn-kick');
 const $btn1 = document.getElementById('btn-shot');
 const $logs = document.querySelector('#logs');
-const character = {
-    name: 'Pikachu',
-    type: 'electric',
-    weakness: ['fighting','water','some'],
-    resistance: ['steel'],
-    defaultHP:100,
-    damageHP:100,
-    changeHP:function changeHP(count){
+function renderProgressbarHP(){
+    this.elProgressbar.style.width = this.damageHP + '%';
+}
+function renderHPLife(){
+    this.elHP.innerText = this.damageHP + '/' + this.defaultHP;
+}
+function renderHP(){
+    renderHPLife.apply(this);
+    renderProgressbarHP.apply(this);
+    
+}
+function changeHP(count){
     
     if(this.damageHP<count){
         this.damageHP = 0;
@@ -25,7 +29,18 @@ const character = {
     $logs.insertBefore($p, $logs.children[0]);
     console.log(log);
     renderHP.call(this);
-    },
+    }
+const character = {
+    name: 'Pikachu',
+    type: 'electric',
+    weakness: ['fighting','water','some'],
+    resistance: ['steel'],
+    defaultHP:100,
+    damageHP:100,
+    changeHP:changeHP,
+    renderHP:renderHP,
+    renderHPLife:renderHPLife,
+    renderProgressbarHP:renderProgressbarHP,
 
     elHP: document.getElementById('health-character'),
     elProgressbar: document.getElementById('progressbar-character')
@@ -37,26 +52,11 @@ const enemy = {
     resistance: ['fighting','water','some'],
     defaultHP:100,
     damageHP:100,
-    changeHP:function (count){
+    changeHP:changeHP,
+    renderHP:renderHP,
+    renderHPLife:renderHPLife,
+    renderProgressbarHP:renderProgressbarHP,
     
-    if(this.damageHP<count){
-        this.damageHP = 0;
-        alert('Бедный ' + this.name + ' проиграл бой');
-        $btn.disabled = true;
-    } else {
-        this.damageHP -= count;
-    }
-    
-    const log = this === enemy ? generateLog(this, character, count) : generateLog(this, enemy, count);
-    
-    const $p = document.createElement('p');
-    $p.innerText = log;
-    $logs.insertBefore($p, $logs.children[0]);
-    console.log(log);
-    renderHP.call(this);
-    },
-
-  
     elHP: document.getElementById('health-enemy'),
     elProgressbar: document.getElementById('progressbar-enemy')
 };
@@ -88,20 +88,16 @@ $btn1.addEventListener('click', function() {
 });
 function init() {
     console.log('Start Game!');
-    renderHP.apply(character);
-    renderHP.apply(enemy);
+    character.renderHP();
+    enemy.renderHP();
 }
-function renderHP(){
-    renderHPLife.apply(this);
-    renderProgressbarHP.apply(this);
-    
-}
-function renderHPLife(){
-    this.elHP.innerText = this.damageHP + '/' + this.defaultHP;
-}
-function renderProgressbarHP(){
-    this.elProgressbar.style.width = this.damageHP + '%';
-}
+character.renderHP();
+enemy.renderHP();
+character.renderHPLife();
+enemy.renderHPLife();
+character.renderProgressbarHP();
+enemy.renderProgressbarHP();
+
 function random(num){
     return Math.ceil(Math.random()*num);
 }
