@@ -60,7 +60,7 @@ const enemy = {
     elHP: document.getElementById('health-enemy'),
     elProgressbar: document.getElementById('progressbar-enemy')
 };
-function generateLog(firstPerson, secondPerson, dmg){
+generateLog=(firstPerson, secondPerson, dmg)=>{
     const logs = [
         `${firstPerson.name} вспомнил что-то важное, но неожиданно ${secondPerson.name}, не помня себя от испуга, ударил в предплечье врага. -${dmg} : [${firstPerson.damageHP}/${firstPerson.defaultHP}]`,
         `${firstPerson.name} поперхнулся, и за это ${secondPerson.name} с испугу приложил прямой удар коленом в лоб врага. -${dmg} : [${firstPerson.damageHP}/${firstPerson.defaultHP}]`,
@@ -76,6 +76,20 @@ function generateLog(firstPerson, secondPerson, dmg){
 
     return logs[random(logs.length) - 1]
 }
+
+trigger=(clicks = 1)=> {
+  return function () {
+      if(clicks<6){
+          console.log("Осталось ударов: ", 6-(clicks++)+ "/6");
+      }
+      else{
+           $btn.disabled=true;
+      }
+  }
+}
+const counter = trigger();
+$btn.addEventListener('click', counter);
+
 $btn.addEventListener('click', function() {
     console.log('Kick');
     character.changeHP(random(20));
@@ -86,7 +100,7 @@ $btn1.addEventListener('click', function() {
     character.changeHP(random(500));
     enemy.changeHP(random(500));
 });
-function init() {
+ init=()=> {
     console.log('Start Game!');
     character.renderHP();
     enemy.renderHP();
@@ -98,7 +112,7 @@ enemy.renderHPLife();
 character.renderProgressbarHP();
 enemy.renderProgressbarHP();
 
-function random(num){
+random=num=>{
     return Math.ceil(Math.random()*num);
 }
 init();
