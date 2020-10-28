@@ -37,10 +37,10 @@ const character = {
     resistance: ['steel'],
     defaultHP:100,
     damageHP:100,
-    changeHP:changeHP,
-    renderHP:renderHP,
-    renderHPLife:renderHPLife,
-    renderProgressbarHP:renderProgressbarHP,
+    changeHP,
+    renderHP,
+    renderHPLife,
+    renderProgressbarHP,
 
     elHP: document.getElementById('health-character'),
     elProgressbar: document.getElementById('progressbar-character')
@@ -52,10 +52,10 @@ const enemy = {
     resistance: ['fighting','water','some'],
     defaultHP:100,
     damageHP:100,
-    changeHP:changeHP,
-    renderHP:renderHP,
-    renderHPLife:renderHPLife,
-    renderProgressbarHP:renderProgressbarHP,
+    changeHP,
+    renderHP,
+    renderHPLife,
+    renderProgressbarHP,
     
     elHP: document.getElementById('health-enemy'),
     elProgressbar: document.getElementById('progressbar-enemy')
@@ -100,6 +100,14 @@ $btn1.addEventListener('click', function() {
     character.changeHP(random(500));
     enemy.changeHP(random(500));
 });
+
+const{name, ...rest}=character;
+const{name:nameEnemy, ...restEnemy}=enemy;
+
+console.log(name,rest);
+console.log(nameEnemy, restEnemy);
+
+
  init=()=> {
     console.log('Start Game!');
     character.renderHP();
