@@ -76,11 +76,11 @@ generateLog=(firstPerson, secondPerson, dmg)=>{
 
     return logs[random(logs.length) - 1]
 }
-
+let count=prompt("Введите количество кликов");
 trigger=(clicks = 1)=> {
   return function () {
-      if(clicks<6){
-          console.log("Осталось ударов: ", 6-(clicks++)+ "/6");
+      if(clicks<count){
+          console.log("Осталось ударов: ", count-(clicks++)+ "/"+count);
       }
       else{
            $btn.disabled=true;
