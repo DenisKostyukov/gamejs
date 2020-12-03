@@ -45,9 +45,10 @@ function generateLog(firstPerson, secondPerson, dmg){
 
     return logs[random(logs.length) - 1]
 }
+let count=5;
     function trigger(clicks = 1) {
   return function () {
-      if(clicks<5){
+      if(clicks<count){
           console.log("Осталось ударов: ", count-(clicks++)+ "/"+count);
       }
       else{
